@@ -1,0 +1,20 @@
+{
+  "name": "مرکز کارآفرینی بین‌المللی دانشگاه شمال",
+  "short_name": "I.E.C",
+  "description": "دوره‌های جامع مهارت‌محور، کارگاه‌های تخصصی و آموزش‌های کاربردی",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#C1121F",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" },
+    {
+      "src": "/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    { "src": "/images/logo-icon.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

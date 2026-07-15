@@ -1,0 +1,66 @@
+# CI — runs on every push and pull request.
+#
+# Three jobs, all run in parallel:
+#   1. typecheck — `bun run typecheck` (tsc --noEmit)
+#   2. lint — `bun run lint` (eslint)
+#   3. test — `bun test` (smoke tests for OTP, phone, RBAC)
+#
+# A build job is intentionally omitted — the build requires
+# ~3GB RAM (NODE_OPTIONS=--max-old-space-size=3072) and CI runners
+# sometimes have less. The typecheck + lint + test jobs catch the
+# vast majority of regressions; the build is verified locally before
+# each release. If a build CI job is needed later, add it with the
+# same NODE_OPTIONS flag.
+#
+# Vercel handles production builds separately via its own deploy hook
+# (the project uses nitro's vercel preset — see vite.config.ts).
+
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+# Cancel in-progress runs when a new commit is pushed to the same PR.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun test

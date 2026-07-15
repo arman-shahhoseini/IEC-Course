@@ -1,0 +1,214 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@import "@fontsource-variable/vazirmatn";
+@import "./premium.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans:
+    "Vazirmatn Variable", "IRANSansX", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-display: "Vazirmatn Variable", "IRANSansX", ui-sans-serif, system-ui;
+
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--paragraph);
+  --color-paragraph: var(--paragraph);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--white);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--foreground);
+  --color-accent: var(--surface);
+  --color-accent-foreground: var(--foreground);
+  --color-destructive: var(--primary);
+  --color-destructive-foreground: var(--white);
+  --color-success: var(--success);
+  --color-gold: var(--gold);
+  --color-white: var(--white);
+
+  /* Status colors — used by StatusBadge and dashboard panels.
+     Each status has a foreground (text) + background pair. */
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-bg: var(--status-pending-bg);
+  --color-status-success: var(--status-success);
+  --color-status-success-bg: var(--status-success-bg);
+  --color-status-rejected: var(--status-rejected);
+  --color-status-rejected-bg: var(--status-rejected-bg);
+  --color-status-draft: var(--status-draft);
+  --color-status-draft-bg: var(--status-draft-bg);
+
+  --radius-btn: 18px;
+  --radius-card: 24px;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+  --radius-3xl: 32px;
+
+  --shadow-card:
+    0 1px 2px 0 rgba(29, 29, 31, 0.04), 0 8px 24px -8px rgba(29, 29, 31, 0.08);
+  --shadow-card-hover:
+    0 4px 8px 0 rgba(29, 29, 31, 0.06), 0 24px 48px -12px rgba(29, 29, 31, 0.16);
+  --shadow-float: 0 20px 60px -20px rgba(29, 29, 31, 0.18);
+  --shadow-red: 0 12px 32px -12px rgba(193, 18, 31, 0.4);
+}
+
+/* Dark mode overrides — applied when `.dark` class is on <html> */
+.dark {
+  --white: #ffffff;
+  --background: #09090b;
+  --surface: #18181b;
+  --border: #27272a;
+  --foreground: #f4f4f5;
+  --paragraph: #a1a1aa;
+  --primary: #ef4444;
+  --primary-hover: #dc2626;
+  --gold: #d4a955;
+  --success: #22c55e;
+
+  --status-pending: #f59e0b;
+  --status-pending-bg: #422006;
+  --status-success: #22c55e;
+  --status-success-bg: #052e16;
+  --status-rejected: #ef4444;
+  --status-rejected-bg: #450a0a;
+  --status-draft: #71717a;
+  --status-draft-bg: #27272a;
+
+  --shadow-card:
+    0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 8px 24px -8px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover:
+    0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+  --shadow-float: 0 20px 60px -20px rgba(0, 0, 0, 0.5);
+  --shadow-red: 0 12px 32px -12px rgba(239, 68, 68, 0.3);
+}
+
+:root {
+  --white: #ffffff;
+  --background: #fafafa;
+  --surface: #f5f5f7;
+  --border: #ececec;
+  --foreground: #1d1d1f;
+  --paragraph: #6e6e73;
+  --primary: #c1121f;
+  --primary-hover: #a30e18;
+  --gold: #c9a961;
+  --success: #22c55e;
+  --radius: 24px;
+
+  /* Status palette — hex values are fixed per design spec, do not change. */
+  --status-pending: #b45309;
+  --status-pending-bg: #fef3e2;
+  --status-success: #15803d;
+  --status-success-bg: #e8f7ee;
+  --status-rejected: #b91c1c;
+  --status-rejected-bg: #fdeceb;
+  --status-draft: #6e6e73;
+  --status-draft-bg: #f5f5f7;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  html[dir="rtl"] body {
+    font-feature-settings: "ss01", "cv11";
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    color: var(--foreground);
+  }
+  ::selection {
+    background-color: var(--primary);
+    color: var(--white);
+  }
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 3rem;
+  }
+}
+
+@utility section-py {
+  padding-block: 60px;
+  @media (min-width: 768px) {
+    padding-block: 80px;
+  }
+  @media (min-width: 1280px) {
+    padding-block: 120px;
+  }
+}
+
+@utility gradient-fade-b {
+  mask-image: linear-gradient(to bottom, black 70%, transparent);
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility card-lift {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

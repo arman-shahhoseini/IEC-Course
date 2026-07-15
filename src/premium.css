@@ -1,0 +1,281 @@
+/**
+ * Premium UI Styles — additional CSS for Stage 11 premium experience.
+ * These augment the existing design tokens in styles.css.
+ * Loaded after the main styles, so they can override.
+ */
+
+/* ── Premium gradient utilities ── */
+@utility gradient-primary {
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-hover) 100%
+  );
+}
+
+@utility gradient-mesh {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(at 20% 20%, rgba(193, 18, 31, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(193, 18, 31, 0.05) 0px, transparent 50%),
+    radial-gradient(at 0% 80%, rgba(201, 169, 97, 0.06) 0px, transparent 50%);
+}
+
+@utility gradient-hero-text {
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    #e74c3c 50%,
+    var(--gold) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glassmorphism ── */
+/* blur(20px) is expensive on mobile — use 12px which is visually
+   similar but ~40% cheaper to composite. saturate(180%) is also
+   costly; dropped to 140%. */
+@utility glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@utility glass-dark {
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Premium shadow ── */
+@utility shadow-premium {
+  box-shadow:
+    0 1px 2px 0 rgba(29, 29, 31, 0.04),
+    0 4px 12px -2px rgba(29, 29, 31, 0.06),
+    0 16px 48px -12px rgba(29, 29, 31, 0.1);
+}
+
+@utility shadow-glow {
+  box-shadow: 0 0 40px -8px rgba(193, 18, 31, 0.25);
+}
+
+/* ── Premium card hover ── */
+@utility card-premium {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      var(--shadow-card-hover),
+      0 0 40px -8px rgba(193, 18, 31, 0.12);
+  }
+}
+
+/* ── Animated gradient background ── */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@utility animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* ── Floating animation ── */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@utility float-anim {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ── Pulse glow ── */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(193, 18, 31, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(193, 18, 31, 0.1);
+  }
+}
+
+@utility pulse-glow-anim {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ── Shimmer skeleton ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@utility shimmer-anim {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ── Premium button shine ── */
+@utility btn-shine {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.6s ease;
+  }
+  &:hover::after {
+    left: 100%;
+  }
+}
+
+/* ── Reduced motion: disable all infinite animations ──
+   This is both an accessibility requirement (vestibular disorders)
+   AND a performance fix — infinite animations consume CPU/GPU even
+   when the user isn't looking at them. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Performance: hint the browser to optimize expensive composites ──
+   Elements with backdrop-filter or box-shadow animations benefit from
+   being promoted to their own compositor layer. This prevents
+   full-page repaints when the animation runs. */
+@utility gpu-layer {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ── Scroll-triggered reveal (replaces framer-motion Reveal component).
+
+   Why CSS instead of framer-motion?
+   framer-motion's `initial="hidden"` sets opacity:0 in SSR HTML.
+   On slow connections, content stays invisible until JS hydrates.
+   This CSS approach keeps content visible by default in SSR, and
+   only adds the `reveal-hidden` class via JS (after mount) for
+   elements that are below the fold. Above-the-fold content stays
+   visible the entire time. ── */
+
+@utility reveal-hidden {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+@utility reveal-visible {
+  animation: reveal-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes reveal-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── CSS entrance animations (replacing framer-motion for above-the-fold
+   content to prevent SSR "invisible text" flash).
+
+   framer-motion's `initial="hidden"` sets opacity:0 in SSR HTML.
+   On slow connections, users see invisible content until JS loads.
+   CSS animations start from the visible state and enhance — content
+   is always readable, animation is a progressive enhancement. ── */
+@keyframes fade-up-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-entrance {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility animate-fade-up {
+  animation: fade-up-entrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility animate-fade-in {
+  animation: fade-in-entrance 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger delays for sequential entrance — applied via inline style
+   or Tailwind arbitrary value: [animation-delay:100ms] */
+@utility animate-fade-up-stagger-1 {
+  animation: fade-up-entrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.1s;
+}
+@utility animate-fade-up-stagger-2 {
+  animation: fade-up-entrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.2s;
+}
+@utility animate-fade-up-stagger-3 {
+  animation: fade-up-entrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.3s;
+}
+@utility animate-fade-up-stagger-4 {
+  animation: fade-up-entrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.4s;
+}
+@utility animate-fade-up-stagger-5 {
+  animation: fade-up-entrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.5s;
+}

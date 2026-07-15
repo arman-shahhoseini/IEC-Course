@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1783868929545,
+      "tag": "0000_remarkable_valeria_richards",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783887100680,
+      "tag": "0001_strange_reptil",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783889249422,
+      "tag": "0002_fantastic_steel_serpent",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1783909211158,
+      "tag": "0003_yummy_vindicator",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1783911476897,
+      "tag": "0004_absurd_masked_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1784107388202,
+      "tag": "0005_jittery_layla_miller",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://karafarini.shomal.ac.ir/sitemap.xml
